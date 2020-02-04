@@ -41,10 +41,14 @@ class HypeController {
             //saved record is an optional thus we need to unwrap it
             guard let record = ckrecordOptional,
                 let savedHypeRecord = Hype(ckRecord: record)
-                //if we can't unwrap, completion is false and we return/jump out from the function
+                //if we can't unwrap, completion is false thus
+                //and we return/jump out from the function
                 else {  completion(false); return }
-            
-            self.hypes.append(savedHypeRecord)
+
+            // Insert the successfully saved Hype object
+            //at the first index of our Source of Truth array
+            self.hypes.insert(savedHypeRecord, at: 0)
+
             completion(true)
         }
     }
@@ -78,5 +82,51 @@ class HypeController {
             self.hypes = fetchedHypes
             completion(true)
         }
+    }
+    
+    func update(_ hype: Hype, completion: @escaping (_ success: Bool) -> Void) {
+        let record = CKRecord(hype: hype)
+
+        let operation = CKModifyRecordsOperation(recordsToSave: [record], recordIDsToDelete: nil)
+
+        operation.savePolicy = .changedKeys
+        operation.qualityOfService = .userInteractive
+        operation.modifyRecordsCompletionBlock = { (records, _, error) in
+
+            if let error = error {
+                print("Error in \(#function) : \(error.localizedDescription) \n---\n \(error)")
+                completion(false)
+                return
+            }
+            
+            // Unwrap the record that was updated and complete true
+            guard let record = records?.first else { completion(false) ; return }
+            print("Updated \(record.recordID) successfully in CloudKit")
+            completion(true)
+        }
+
+        publicDB.add(operation)
+    }
+    
+    func delete(_ hype: Hype, completion: @escaping (_ success: Bool) -> Void) {
+        let operation = CKModifyRecordsOperation(recordsToSave: nil, recordIDsToDelete: [hype.recordID])
+        operation.savePolicy = .changedKeys
+        operation.qualityOfService = .userInteractive
+        operation.modifyRecordsCompletionBlock = {records, _, error in
+            
+            if let error = error {
+                print("Error in \(#function) : \(error.localizedDescription) \n---\n \(error)")
+                completion(false)
+            }
+            
+            if records?.count == 0 {
+                print("Deleted record from CloudKit")
+                completion(true)
+            } else {
+                print("Unexpected records were returned when trying to delete")
+                completion(false)
+            }
+        }
+        publicDB.add(operation)
     }
 }
