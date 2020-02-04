@@ -15,6 +15,9 @@ struct HypeStrings {
     fileprivate static let timestampkey = "timestamp"
 }
 
+/**
+ this iis used to
+ */
 class Hype {
     
     var body: String
@@ -34,7 +37,14 @@ class Hype {
 extension Hype {
     /**
      Accepts a CKRecord, pulls out the values found in it, and
-     uses those values to initialize a Hype instance
+     uses those values to initialize a Hype instance.
+     This is used when an object that already exists in CloudKit
+     is requested from the server. When the request is fulfilled
+     successfully, the returned Objects are CKRecords but since
+     we need to present our own Class (in this case, an instance
+     of class `Hype`) we need to turn each CKRecord into
+     a Hype object. The `concenience` method below is used
+     to accomplish this.
      */
     convenience init?(ckRecord: CKRecord) {
         guard let body = ckRecord[HypeStrings.bodyKey] as? String,
@@ -45,6 +55,12 @@ extension Hype {
     }
 }
 
+/**
+ this is used to ensure that updates and deletes work correctly.
+ Basically we ask:
+ - `hey! I need to update/delete an object`
+ - `return true/false to let me know if I am working on the right object`
+ */
 extension Hype: Equatable {
     static func == (lhs: Hype, rhs: Hype) -> Bool {
         /**
@@ -56,7 +72,25 @@ extension Hype: Equatable {
 }
 
 /**
- CKRecord is essentially a dictionary of key-value pairs
+ CKRecord is essentially a dictionary of key-value pairs BUT there are
+ limitations to the types of values that can be assigned to keys. Currently
+ the following are object types supported:
+    - NSString
+    - NSNumber
+    - NSData
+    - NSArray
+    - CLLocation
+    - CKAsset
+    - CKRecord.Reference
+ 
+ Notes on CKRecord
+    CKRecord.Reference is only new Type that I should be unfamilar with. Still, it is easy
+    to understand as it simply creates a link to a related record; the reference stores the
+    ID of the target record.
+    - The advantage of using a reference instead of storing the ID as a string is that
+    - references can initiate cascade deletions of dependent records.
+    - The disadvantage is that references can only link between records in the same
+    - record zone, see CKRecord.Reference documentation for more
  */
 extension CKRecord {
     /**
