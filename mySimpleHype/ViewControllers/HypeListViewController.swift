@@ -25,17 +25,8 @@ class HypeListViewController: UIViewController {
     
     // MARK: - ACTIONS
     @IBAction func composeHypeButtonTapped(_ sender: UIBarButtonItem) {
+        presentHypeAlert(for: nil)
     }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
     // MARK: - Custom Methods
     func configureTableView() {
@@ -95,6 +86,55 @@ class HypeListViewController: UIViewController {
         label.text = "No Records Yet"
         self.view.addSubview(label)
     }
+    
+    // MARK: - Day 2 changes
+    func presentHypeAlert(for hype: Hype?) {
+        let alertController = UIAlertController(
+            title: "Get Hype!",
+            message: "What is hype may never die",
+            preferredStyle: .alert
+        )
+        
+        alertController.addTextField { (textField) in
+            textField.delegate = self as? UITextFieldDelegate
+            textField.placeholder = "What is hype today?"
+            textField.autocorrectionType = .yes
+            textField.autocapitalizationType = .sentences
+            if let hype = hype {
+                textField.text = hype.body
+            }
+        }
+        
+        let addHypeAction = UIAlertAction(title: "Send", style: .default) { (_) in
+            guard let text = alertController.textFields?.first?.text,
+                !text.isEmpty
+                else { return }
+            
+            if let hype = hype {
+                hype.body = text
+                HypeController.sharedGlobalInstance.update(hype) { (success) in
+                    if success {
+                        self.updateViews()
+                    }
+                }
+            } else {
+                HypeController.sharedGlobalInstance.saveHypeInstance(with: text) {
+                    (success) in
+                    
+                    if success {
+                        self.updateViews()
+                    }
+                }
+            }
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        
+        alertController.addAction(addHypeAction)
+        alertController.addAction(cancelAction)
+        
+        self.present(alertController, animated: true)
+    }
 }
 
 extension HypeListViewController: UITableViewDelegate {
@@ -105,7 +145,9 @@ extension HypeListViewController: UITableViewDataSource {
         return HypeController.sharedGlobalInstance.hypes.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView,
+                   cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cell = hypeTableView.dequeueReusableCell(
             withIdentifier: "hypeCell", for: indexPath
         )
@@ -117,5 +159,29 @@ extension HypeListViewController: UITableViewDataSource {
         return cell
     }
     
+    func tableView(_ tableView: UITableView,
+                   commit editingStyle: UITableViewCell.EditingStyle,
+                   forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let hypeToDelete = HypeController.sharedGlobalInstance.hypes[indexPath.row]
+            
+            guard let index = HypeController.sharedGlobalInstance.hypes.firstIndex(of: hypeToDelete)
+                else { return }
+            
+            HypeController.sharedGlobalInstance.delete(hypeToDelete) { (success) in
+                if success {
+                    HypeController.sharedGlobalInstance.hypes.remove(at: index)
+                    DispatchQueue.main.async {
+                        tableView.deleteRows(at: [indexPath], with: .fade)
+                    }
+                }
+            }
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let hypeSelected = HypeController.sharedGlobalInstance.hypes[indexPath.row]
+        presentHypeAlert(for: hypeSelected)
+    }
     
 }
