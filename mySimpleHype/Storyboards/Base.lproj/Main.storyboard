@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="73l-k2-KJv">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Hype List View Controller-->
+        <scene sceneID="ALm-HL-zh5">
+            <objects>
+                <viewController id="MGy-gC-k5o" customClass="HypeListViewController" customModule="mySimpleHype" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="heL-b8-rnA">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="wA2-26-zN8">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="hypeCell" id="SVa-fu-6Ue">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="SVa-fu-6Ue" id="LBz-FX-KEG">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="JNs-Pq-gFJ" firstAttribute="trailing" secondItem="wA2-26-zN8" secondAttribute="trailing" id="8Cm-63-LDL"/>
+                            <constraint firstItem="wA2-26-zN8" firstAttribute="leading" secondItem="JNs-Pq-gFJ" secondAttribute="leading" id="HYj-8X-YZS"/>
+                            <constraint firstItem="wA2-26-zN8" firstAttribute="top" secondItem="JNs-Pq-gFJ" secondAttribute="top" id="QDb-Zh-YSf"/>
+                            <constraint firstItem="JNs-Pq-gFJ" firstAttribute="bottom" secondItem="wA2-26-zN8" secondAttribute="bottom" id="kqC-90-x9H"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="JNs-Pq-gFJ"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Vfu-3b-iwo">
+                        <barButtonItem key="rightBarButtonItem" systemItem="compose" id="HGf-Ek-iTE">
+                            <connections>
+                                <action selector="composeHypeButtonTapped:" destination="MGy-gC-k5o" id="1f8-jV-FzT"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="composeHypeButton" destination="HGf-Ek-iTE" id="VhY-NF-z8b"/>
+                        <outlet property="hypeTableView" destination="wA2-26-zN8" id="Nug-je-9AV"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vuK-Fy-G8q" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="965.21739130434787" y="-206.25"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="O0V-wS-z3n">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="73l-k2-KJv" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Oh0-q1-kye">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="MGy-gC-k5o" kind="relationship" relationship="rootViewController" id="FJ9-LS-wnF"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Cho-pV-MnE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="57.971014492753625" y="-206.25"/>
+        </scene>
+    </scenes>
+</document>
