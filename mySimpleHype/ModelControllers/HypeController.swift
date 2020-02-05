@@ -21,55 +21,58 @@ class HypeController {
      */
     let publicDB = CKContainer.default().publicCloudDatabase
     
-    func saveHypeInstance(with body: String, completion: @escaping (Bool) -> Void) {
+    func saveHype(with body: String, completion: @escaping (Result<Hype?, HypeError>) -> Void) {
+        
         let newHypeInstance = Hype(body: body)
         
-        //use hype instance to create a CKRecord
-        //using the convience initializer that
-        //we wrote in CKRecord extension
         let hypeRecord = CKRecord(hype: newHypeInstance)
         
-        // save this hypeRecord in the cloud Cloudkit
         publicDB.save(hypeRecord) { (ckrecordOptional, error) in
             
             if let error = error {
                 print("Error in \(#function) : \(error.localizedDescription) \n---\n \(error)")
-                completion(false)
-                return
+                return completion(.failure(.ckError(error)))
             }
             
             //saved record is an optional thus we need to unwrap it
             guard let record = ckrecordOptional,
                 let savedHypeRecord = Hype(ckRecord: record)
-                //if we can't unwrap, completion is false thus
-                //and we return/jump out from the function
-                else {  completion(false); return }
+                /**if we can't unwrap, completion is false thus
+                 and we return/jump out from the function
+                 */
+                else { return completion(.failure(.unableToUnWrapCKRecordObject)) }
 
-            // Insert the successfully saved Hype object
+            //Insert the successfully saved Hype object
             //at the first index of our Source of Truth array
             self.hypes.insert(savedHypeRecord, at: 0)
 
-            completion(true)
+            return completion(.success(savedHypeRecord))
         }
     }
     
-    func fetchHypes(completion: @escaping (Bool) -> Void) {
+    func fetch(completion: @escaping (Result<[Hype], HypeError>) -> Void ) {
+        
         /**a predicate is a way to set rules for what
          information we want back. In this case we
-         we want all Hype Records
+         we want all Hype Records so we say if a
          */
-        let predicate = NSPredicate(value: true)
+        let queryAllPredicate = NSPredicate(value: true)
         
-        let query = CKQuery(recordType: HypeStrings.recordTypeKey, predicate: predicate)
+        let query = CKQuery(
+            recordType: HypeKeys.recordTypeKey,
+            predicate: queryAllPredicate
+        )
         
         publicDB.perform(query, inZoneWith: nil) { (records, error) in
+            
             if let error = error {
                 print("Error in \(#function) : \(error.localizedDescription) \n---\n \(error)")
+                return completion(.failure(.ckError(error)))
             }
             
             guard let records = records
-                else { completion(false); return}
-            
+                else {return completion(.failure(.unableToUnWrapCKRecordObject))}
+
             // compactMap through returned records to
             // return only non-nil Hype records
             let fetchedHypes = records.compactMap {
@@ -80,53 +83,99 @@ class HypeController {
             }
             
             self.hypes = fetchedHypes
-            completion(true)
+            completion(.success(self.hypes))
+            
         }
     }
-    
-    func update(_ hype: Hype, completion: @escaping (_ success: Bool) -> Void) {
+
+    func update(_ hype: Hype, completion: @escaping (Result<Hype?, HypeError>) ->Void) {
         let record = CKRecord(hype: hype)
-
+        
         let operation = CKModifyRecordsOperation(recordsToSave: [record], recordIDsToDelete: nil)
-
+        
+        /**
+         savePolicy determines what needs to be saved during the operation.
+         if the values changed from what is on cloudkit, change that value else
+         do not change the value. Basically, when saving things only change
+         things that have changed.
+         */
         operation.savePolicy = .changedKeys
+        
+        
         operation.qualityOfService = .userInteractive
         operation.modifyRecordsCompletionBlock = { (records, _, error) in
-
+            
             if let error = error {
                 print("Error in \(#function) : \(error.localizedDescription) \n---\n \(error)")
-                completion(false)
-                return
+                return completion(.failure(.ckError(error)))
             }
             
-            // Unwrap the record that was updated and complete true
-            guard let record = records?.first else { completion(false) ; return }
-            print("Updated \(record.recordID) successfully in CloudKit")
-            completion(true)
+            guard let record = records?.first,
+                let updatedHype = Hype(ckRecord: record)
+                else {return completion(.failure(.unableToUnWrapCKRecordObject))}
+            completion(.success(updatedHype))
         }
-
         publicDB.add(operation)
     }
     
-    func delete(_ hype: Hype, completion: @escaping (_ success: Bool) -> Void) {
+    /**UPDATED VERSION*/
+    func delete(_ hype: Hype, completion: @escaping (Result<Bool, HypeError>) ->Void) {
+        
         let operation = CKModifyRecordsOperation(recordsToSave: nil, recordIDsToDelete: [hype.recordID])
         operation.savePolicy = .changedKeys
         operation.qualityOfService = .userInteractive
+        
         operation.modifyRecordsCompletionBlock = {records, _, error in
             
             if let error = error {
                 print("Error in \(#function) : \(error.localizedDescription) \n---\n \(error)")
-                completion(false)
+                return completion(.failure(.ckError(error)))
             }
             
             if records?.count == 0 {
                 print("Deleted record from CloudKit")
-                completion(true)
+                return completion(.success(true))
             } else {
-                print("Unexpected records were returned when trying to delete")
-                completion(false)
+                print("Unable to delete record")
+                return completion(.failure(.unexpectedRecordsFound))
             }
         }
         publicDB.add(operation)
+    }
+    
+    // trigger notifications
+    func subscribeForRemoteNotifications(completion: @escaping (_ error: Error?) -> Void) {
+        let predicate = NSPredicate(value: true)
+        
+        /**create subscriptions; since predicate is true,
+         it gets the notifications for ALL Hype record types
+         */
+        let subscription = CKQuerySubscription(
+            recordType: HypeKeys.recordTypeKey,
+            predicate: predicate,
+            options: .firesOnRecordCreation
+        )
+        
+        /**create a notification and set its properties */
+        let notificationInfo = CKSubscription.NotificationInfo()
+        notificationInfo.title = "Something"
+        notificationInfo.alertBody = "What goes here"
+        notificationInfo.shouldBadge = true
+        notificationInfo.soundName = "default"
+        
+        /** access subscription and assign its nofification info*/
+        subscription.notificationInfo = notificationInfo
+        
+        /**save subscription to database so that database
+         can push notifications to all devices that are
+         subscribed to that notification */
+        publicDB.save(subscription) { (_, error) in
+            if let error = error {
+                completion(error)
+            }
+            
+            //if no error, then assume it is successful
+            completion(nil)
+        }
     }
 }
