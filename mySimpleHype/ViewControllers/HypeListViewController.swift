@@ -55,13 +55,16 @@ class HypeListViewController: UIViewController {
     }
     
     func loadData() {
-        HypeController.sharedGlobalInstance.fetchHypes { (success) in
-            if success {
-                self.updateViews()
+        HypeController.sharedGlobalInstance.fetch { (result) in
+            switch result {
+                case .success(_):
+                    self.updateViews()
+                case .failure(let error):
+                    self.presentErrorToUser(localizedError: error)
             }
         }
     }
-    
+
     func updateViews() {
         DispatchQueue.main.async {
             self.hypeTableView.reloadData()
@@ -85,55 +88,6 @@ class HypeListViewController: UIViewController {
         label.textAlignment = .center
         label.text = "No Records Yet"
         self.view.addSubview(label)
-    }
-    
-    // MARK: - Day 2 changes
-    func presentHypeAlert(for hype: Hype?) {
-        let alertController = UIAlertController(
-            title: "Get Hype!",
-            message: "What is hype may never die",
-            preferredStyle: .alert
-        )
-        
-        alertController.addTextField { (textField) in
-            textField.delegate = self as? UITextFieldDelegate
-            textField.placeholder = "What is hype today?"
-            textField.autocorrectionType = .yes
-            textField.autocapitalizationType = .sentences
-            if let hype = hype {
-                textField.text = hype.body
-            }
-        }
-        
-        let addHypeAction = UIAlertAction(title: "Send", style: .default) { (_) in
-            guard let text = alertController.textFields?.first?.text,
-                !text.isEmpty
-                else { return }
-            
-            if let hype = hype {
-                hype.body = text
-                HypeController.sharedGlobalInstance.update(hype) { (success) in
-                    if success {
-                        self.updateViews()
-                    }
-                }
-            } else {
-                HypeController.sharedGlobalInstance.saveHypeInstance(with: text) {
-                    (success) in
-                    
-                    if success {
-                        self.updateViews()
-                    }
-                }
-            }
-        }
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-        
-        alertController.addAction(addHypeAction)
-        alertController.addAction(cancelAction)
-        
-        self.present(alertController, animated: true)
     }
 }
 
@@ -168,12 +122,18 @@ extension HypeListViewController: UITableViewDataSource {
             guard let index = HypeController.sharedGlobalInstance.hypes.firstIndex(of: hypeToDelete)
                 else { return }
             
-            HypeController.sharedGlobalInstance.delete(hypeToDelete) { (success) in
-                if success {
-                    HypeController.sharedGlobalInstance.hypes.remove(at: index)
-                    DispatchQueue.main.async {
-                        tableView.deleteRows(at: [indexPath], with: .fade)
-                    }
+            HypeController.sharedGlobalInstance.delete(hypeToDelete) { (result) in
+                /** result is either a Bool or an error */
+                switch result {
+                    case .success(let success):
+                        if success {
+                            HypeController.sharedGlobalInstance.hypes.remove(at: index)
+                            DispatchQueue.main.async {
+                                tableView.deleteRows(at: [indexPath], with: .fade)
+                            }
+                        }
+                    case .failure(let error):
+                        print(error.errorDescription ?? error.localizedDescription)
                 }
             }
         }

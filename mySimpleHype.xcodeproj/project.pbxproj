@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0F88D89423E9F00400B741BC /* HypeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F88D89323E9F00400B741BC /* HypeError.swift */; };
+		0F88D89623EA016000B741BC /* ErrorPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F88D89523EA016000B741BC /* ErrorPresenter.swift */; };
+		0F88D89823EA0F5900B741BC /* HypeListViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F88D89723EA0F5900B741BC /* HypeListViewControllerExtension.swift */; };
+		0F88D8A023EA5E6700B741BC /* HypeUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F88D89F23EA5E6700B741BC /* HypeUser.swift */; };
 		0F9539E523E904450087EAFB /* HypeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F9539E423E904450087EAFB /* HypeListViewController.swift */; };
 		0F9539E723E907AF0087EAFB /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F9539E623E907AF0087EAFB /* DateExtension.swift */; };
 		0FC2A50F23E8E9B70055E9ED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FC2A50E23E8E9B70055E9ED /* AppDelegate.swift */; };
@@ -20,6 +24,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0F88D89323E9F00400B741BC /* HypeError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HypeError.swift; sourceTree = "<group>"; };
+		0F88D89523EA016000B741BC /* ErrorPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorPresenter.swift; sourceTree = "<group>"; };
+		0F88D89723EA0F5900B741BC /* HypeListViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HypeListViewControllerExtension.swift; sourceTree = "<group>"; };
+		0F88D89F23EA5E6700B741BC /* HypeUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HypeUser.swift; sourceTree = "<group>"; };
 		0F9539E423E904450087EAFB /* HypeListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HypeListViewController.swift; sourceTree = "<group>"; };
 		0F9539E623E907AF0087EAFB /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		0FC2A50B23E8E9B70055E9ED /* mySimpleHype.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mySimpleHype.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -51,6 +59,9 @@
 			isa = PBXGroup;
 			children = (
 				0F9539E623E907AF0087EAFB /* DateExtension.swift */,
+				0F88D89323E9F00400B741BC /* HypeError.swift */,
+				0F88D89523EA016000B741BC /* ErrorPresenter.swift */,
+				0F88D89723EA0F5900B741BC /* HypeListViewControllerExtension.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -110,6 +121,7 @@
 			isa = PBXGroup;
 			children = (
 				0FC2A52723E8EB0A0055E9ED /* Hype.swift */,
+				0F88D89F23EA5E6700B741BC /* HypeUser.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -210,9 +222,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				0FC2A52B23E8EED80055E9ED /* HypeController.swift in Sources */,
+				0F88D89823EA0F5900B741BC /* HypeListViewControllerExtension.swift in Sources */,
+				0F88D89623EA016000B741BC /* ErrorPresenter.swift in Sources */,
 				0F9539E723E907AF0087EAFB /* DateExtension.swift in Sources */,
 				0FC2A50F23E8E9B70055E9ED /* AppDelegate.swift in Sources */,
 				0F9539E523E904450087EAFB /* HypeListViewController.swift in Sources */,
+				0F88D8A023EA5E6700B741BC /* HypeUser.swift in Sources */,
+				0F88D89423E9F00400B741BC /* HypeError.swift in Sources */,
 				0FC2A51123E8E9B70055E9ED /* SceneDelegate.swift in Sources */,
 				0FC2A52823E8EB0A0055E9ED /* Hype.swift in Sources */,
 			);
