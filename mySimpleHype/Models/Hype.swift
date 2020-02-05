@@ -9,15 +9,12 @@
 import Foundation
 import CloudKit
 
-struct HypeStrings {
+struct HypeKeys {
     static let recordTypeKey = "Hype"
     fileprivate static let bodyKey = "body"
     fileprivate static let timestampkey = "timestamp"
 }
 
-/**
- this iis used to
- */
 class Hype {
     
     var body: String
@@ -47,8 +44,8 @@ extension Hype {
      to accomplish this.
      */
     convenience init?(ckRecord: CKRecord) {
-        guard let body = ckRecord[HypeStrings.bodyKey] as? String,
-            let timestamp = ckRecord[HypeStrings.timestampkey] as? Date
+        guard let body = ckRecord[HypeKeys.bodyKey] as? String,
+            let timestamp = ckRecord[HypeKeys.timestampkey] as? Date
             else { return nil }
         
         self.init(body: body, timestamp: timestamp, recordID: ckRecord.recordID)
@@ -98,10 +95,10 @@ extension CKRecord {
      stored in a CKRecord and saved to the cloud
      */
     convenience init(hype: Hype) {
-        self.init(recordType: HypeStrings.recordTypeKey, recordID: hype.recordID)
+        self.init(recordType: HypeKeys.recordTypeKey, recordID: hype.recordID)
         self.setValuesForKeys([
-            HypeStrings.bodyKey : hype.body,
-            HypeStrings.timestampkey : hype.timestamp
+            HypeKeys.bodyKey : hype.body,
+            HypeKeys.timestampkey : hype.timestamp
         ])
     }
 }
