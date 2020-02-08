@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0F88D89423E9F00400B741BC /* HypeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F88D89323E9F00400B741BC /* HypeError.swift */; };
-		0F88D89623EA016000B741BC /* ErrorPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F88D89523EA016000B741BC /* ErrorPresenter.swift */; };
+		0F88D89623EA016000B741BC /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F88D89523EA016000B741BC /* UIViewControllerExtension.swift */; };
 		0F88D89823EA0F5900B741BC /* HypeListViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F88D89723EA0F5900B741BC /* HypeListViewControllerExtension.swift */; };
 		0F88D8A023EA5E6700B741BC /* HypeUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F88D89F23EA5E6700B741BC /* HypeUser.swift */; };
 		0F9539E523E904450087EAFB /* HypeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F9539E423E904450087EAFB /* HypeListViewController.swift */; };
@@ -21,11 +21,15 @@
 		0FC2A52623E8EA1B0055E9ED /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FC2A52523E8EA1B0055E9ED /* CloudKit.framework */; };
 		0FC2A52823E8EB0A0055E9ED /* Hype.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FC2A52723E8EB0A0055E9ED /* Hype.swift */; };
 		0FC2A52B23E8EED80055E9ED /* HypeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FC2A52A23E8EED80055E9ED /* HypeController.swift */; };
+		0FFA519023EC84AC007938D6 /* HypeUserController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FFA518F23EC84AC007938D6 /* HypeUserController.swift */; };
+		0FFA519223EC85DC007938D6 /* HypeUserError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FFA519123EC85DC007938D6 /* HypeUserError.swift */; };
+		0FFA519423EC9FE6007938D6 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FFA519323EC9FE6007938D6 /* SignUpViewController.swift */; };
+		0FFA519623ECA19B007938D6 /* HypeList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FFA519523ECA19B007938D6 /* HypeList.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0F88D89323E9F00400B741BC /* HypeError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HypeError.swift; sourceTree = "<group>"; };
-		0F88D89523EA016000B741BC /* ErrorPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorPresenter.swift; sourceTree = "<group>"; };
+		0F88D89523EA016000B741BC /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
 		0F88D89723EA0F5900B741BC /* HypeListViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HypeListViewControllerExtension.swift; sourceTree = "<group>"; };
 		0F88D89F23EA5E6700B741BC /* HypeUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HypeUser.swift; sourceTree = "<group>"; };
 		0F9539E423E904450087EAFB /* HypeListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HypeListViewController.swift; sourceTree = "<group>"; };
@@ -41,6 +45,10 @@
 		0FC2A52523E8EA1B0055E9ED /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		0FC2A52723E8EB0A0055E9ED /* Hype.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hype.swift; sourceTree = "<group>"; };
 		0FC2A52A23E8EED80055E9ED /* HypeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HypeController.swift; sourceTree = "<group>"; };
+		0FFA518F23EC84AC007938D6 /* HypeUserController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HypeUserController.swift; sourceTree = "<group>"; };
+		0FFA519123EC85DC007938D6 /* HypeUserError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HypeUserError.swift; sourceTree = "<group>"; };
+		0FFA519323EC9FE6007938D6 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		0FFA519523ECA19B007938D6 /* HypeList.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = HypeList.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,12 +66,19 @@
 		0F9539E823E907B30087EAFB /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				0F9539E623E907AF0087EAFB /* DateExtension.swift */,
-				0F88D89323E9F00400B741BC /* HypeError.swift */,
-				0F88D89523EA016000B741BC /* ErrorPresenter.swift */,
-				0F88D89723EA0F5900B741BC /* HypeListViewControllerExtension.swift */,
+				0FFA519F23ECD5C5007938D6 /* ErrorHelpers */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		0F9AED1A23EF4F1A00C8903B /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				0F88D89723EA0F5900B741BC /* HypeListViewControllerExtension.swift */,
+				0F9539E623E907AF0087EAFB /* DateExtension.swift */,
+				0F88D89523EA016000B741BC /* UIViewControllerExtension.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		0FC2A50223E8E9B70055E9ED = {
@@ -86,13 +101,13 @@
 		0FC2A50D23E8E9B70055E9ED /* mySimpleHype */ = {
 			isa = PBXGroup;
 			children = (
-				0FC2A52323E8EA000055E9ED /* mySimpleHype.entitlements */,
+				0F9AED1A23EF4F1A00C8903B /* Extensions */,
+				0F9539E823E907B30087EAFB /* Helpers */,
 				0FC2A53023E8FA8A0055E9ED /* ViewControllers */,
 				0FC2A52C23E8EEDE0055E9ED /* ModelControllers */,
 				0FC2A52923E8EB0E0055E9ED /* Models */,
 				0FC2A52D23E8EF000055E9ED /* Storyboards */,
 				0FC2A52223E8E9C10055E9ED /* Resources */,
-				0F9539E823E907B30087EAFB /* Helpers */,
 			);
 			path = mySimpleHype;
 			sourceTree = "<group>";
@@ -100,6 +115,7 @@
 		0FC2A52223E8E9C10055E9ED /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				0FC2A52323E8EA000055E9ED /* mySimpleHype.entitlements */,
 				0FC2A50E23E8E9B70055E9ED /* AppDelegate.swift */,
 				0FC2A51023E8E9B70055E9ED /* SceneDelegate.swift */,
 				0FC2A51723E8E9B90055E9ED /* Assets.xcassets */,
@@ -130,6 +146,7 @@
 			isa = PBXGroup;
 			children = (
 				0FC2A52A23E8EED80055E9ED /* HypeController.swift */,
+				0FFA518F23EC84AC007938D6 /* HypeUserController.swift */,
 			);
 			path = ModelControllers;
 			sourceTree = "<group>";
@@ -137,6 +154,7 @@
 		0FC2A52D23E8EF000055E9ED /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
+				0FFA519523ECA19B007938D6 /* HypeList.storyboard */,
 				0FC2A51423E8E9B70055E9ED /* Main.storyboard */,
 			);
 			path = Storyboards;
@@ -146,8 +164,18 @@
 			isa = PBXGroup;
 			children = (
 				0F9539E423E904450087EAFB /* HypeListViewController.swift */,
+				0FFA519323EC9FE6007938D6 /* SignUpViewController.swift */,
 			);
 			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		0FFA519F23ECD5C5007938D6 /* ErrorHelpers */ = {
+			isa = PBXGroup;
+			children = (
+				0F88D89323E9F00400B741BC /* HypeError.swift */,
+				0FFA519123EC85DC007938D6 /* HypeUserError.swift */,
+			);
+			path = ErrorHelpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -208,6 +236,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0FFA519623ECA19B007938D6 /* HypeList.storyboard in Resources */,
 				0FC2A51B23E8E9B90055E9ED /* LaunchScreen.storyboard in Resources */,
 				0FC2A51823E8E9B90055E9ED /* Assets.xcassets in Resources */,
 				0FC2A51623E8E9B70055E9ED /* Main.storyboard in Resources */,
@@ -223,13 +252,16 @@
 			files = (
 				0FC2A52B23E8EED80055E9ED /* HypeController.swift in Sources */,
 				0F88D89823EA0F5900B741BC /* HypeListViewControllerExtension.swift in Sources */,
-				0F88D89623EA016000B741BC /* ErrorPresenter.swift in Sources */,
+				0F88D89623EA016000B741BC /* UIViewControllerExtension.swift in Sources */,
 				0F9539E723E907AF0087EAFB /* DateExtension.swift in Sources */,
 				0FC2A50F23E8E9B70055E9ED /* AppDelegate.swift in Sources */,
 				0F9539E523E904450087EAFB /* HypeListViewController.swift in Sources */,
 				0F88D8A023EA5E6700B741BC /* HypeUser.swift in Sources */,
+				0FFA519023EC84AC007938D6 /* HypeUserController.swift in Sources */,
 				0F88D89423E9F00400B741BC /* HypeError.swift in Sources */,
+				0FFA519223EC85DC007938D6 /* HypeUserError.swift in Sources */,
 				0FC2A51123E8E9B70055E9ED /* SceneDelegate.swift in Sources */,
+				0FFA519423EC9FE6007938D6 /* SignUpViewController.swift in Sources */,
 				0FC2A52823E8EB0A0055E9ED /* Hype.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -374,7 +406,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = mySimpleHype/mySimpleHype.entitlements;
+				CODE_SIGN_ENTITLEMENTS = mySimpleHype/Resources/mySimpleHype.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = ZNLU7D4LG4;
 				INFOPLIST_FILE = mySimpleHype/Resources/Info.plist;
@@ -393,7 +425,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = mySimpleHype/mySimpleHype.entitlements;
+				CODE_SIGN_ENTITLEMENTS = mySimpleHype/Resources/mySimpleHype.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = ZNLU7D4LG4;
 				INFOPLIST_FILE = mySimpleHype/Resources/Info.plist;

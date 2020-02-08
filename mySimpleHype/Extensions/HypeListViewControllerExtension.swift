@@ -40,6 +40,7 @@ extension HypeListViewController {
                         case .success(_):
                             self.updateViews()
                         case .failure(let error):
+                            
                             print(error)
                     }
                 }
