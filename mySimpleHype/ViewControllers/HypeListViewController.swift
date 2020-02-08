@@ -132,6 +132,10 @@ extension HypeListViewController: UITableViewDataSource {
             
             let hypeToDelete = HypeController.sharedGlobalInstance.hypes[indexPath.row]
             
+            //add guard against current user not being the owner of the hype
+            guard hypeToDelete.userReference?.recordID == HypeUserController.sharedInstance.currentUser?.recordID
+                else { return }
+            
             guard let index = HypeController.sharedGlobalInstance.hypes.firstIndex(of: hypeToDelete)
                 else { return }
             

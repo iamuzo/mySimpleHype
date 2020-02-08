@@ -11,7 +11,7 @@ import CloudKit
 
 class HypeController {
     
-    // MARK: - Properties
+    // MARK: - PROPERTIES
     var hypes: [Hype] = []
     static let sharedGlobalInstance = HypeController()
     
@@ -23,7 +23,13 @@ class HypeController {
     
     func saveHype(with body: String, completion: @escaping (Result<Hype?, HypeError>) -> Void) {
         
-        let newHypeInstance = Hype(body: body)
+        guard let currentUser = HypeUserController.sharedInstance.currentUser else {
+            return completion(.failure(.noUserLoggedIn))
+        }
+        
+        let reference = CKRecord.Reference(recordID: currentUser.recordID, action: .none)
+        
+        let newHypeInstance = Hype(body: body, userReference: reference)
         
         let hypeRecord = CKRecord(hype: newHypeInstance)
         
@@ -89,6 +95,11 @@ class HypeController {
     }
 
     func update(_ hype: Hype, completion: @escaping (Result<Hype?, HypeError>) ->Void) {
+        
+        //users can only edit their own hypes
+        guard hype.userReference?.recordID == HypeUserController.sharedInstance.currentUser?.recordID
+            else { return completion(.failure(.unexpectedRecordsFound))}
+        
         let record = CKRecord(hype: hype)
         
         let operation = CKModifyRecordsOperation(recordsToSave: [record], recordIDsToDelete: nil)
@@ -120,6 +131,10 @@ class HypeController {
     
     /**UPDATED VERSION*/
     func delete(_ hype: Hype, completion: @escaping (Result<Bool, HypeError>) ->Void) {
+        
+        //users can only delete their own hypes
+        guard hype.userReference?.recordID == HypeUserController.sharedInstance.currentUser?.recordID
+            else { return completion(.failure(.unexpectedRecordsFound))}
         
         let operation = CKModifyRecordsOperation(recordsToSave: nil, recordIDsToDelete: [hype.recordID])
         operation.savePolicy = .changedKeys
