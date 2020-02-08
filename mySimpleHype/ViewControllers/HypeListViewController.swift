@@ -12,6 +12,7 @@ class HypeListViewController: UIViewController {
 
     // MARK: - PROPERTIES
     var indicator = UIActivityIndicatorView(style: .medium)
+    var label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 21))
     
     // MARK: - OUTLETS
     @IBOutlet weak var hypeTableView: UITableView!
@@ -20,7 +21,13 @@ class HypeListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureTableView()
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         setupView()
+        
     }
     
     // MARK: - ACTIONS
@@ -76,18 +83,22 @@ class HypeListViewController: UIViewController {
         let hypeRecords = HypeController.sharedGlobalInstance.hypes.count
         
         if hypeRecords == 0 {
-            noRecordsLabel()
+            showNoRecordsLabel()
         } else {
             removeActivityIndicator()
+            removeNoRecordsLabel()
         }
     }
     
-    func noRecordsLabel() {
-        let label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 21))
+    func showNoRecordsLabel() {
         label.center = view.center
         label.textAlignment = .center
         label.text = "No Records Yet"
         self.view.addSubview(label)
+    }
+    
+    func removeNoRecordsLabel() {
+        label.isHidden = true
     }
 }
 
@@ -116,7 +127,9 @@ extension HypeListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView,
                    commit editingStyle: UITableViewCell.EditingStyle,
                    forRowAt indexPath: IndexPath) {
+        
         if editingStyle == .delete {
+            
             let hypeToDelete = HypeController.sharedGlobalInstance.hypes[indexPath.row]
             
             guard let index = HypeController.sharedGlobalInstance.hypes.firstIndex(of: hypeToDelete)
